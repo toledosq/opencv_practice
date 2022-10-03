@@ -53,6 +53,12 @@ def display_video_frames(vid_capture, fps):
     
     
 def write_frames_as_video(vid_capture, output_path, fps, frame_size):
+    
+    # Obtain frame size info
+    frame_width = int(vid_capture.get(3))
+    frame_height = int(vid_capture.get(4))
+    frame_size = (frame_width, frame_height)
+    
     # Create output object
     output = cv2.VideoWriter(output_path, 
                             cv2.VideoWriter_fourcc('M','J','P','G'),    # Codec
@@ -112,11 +118,6 @@ if __name__ == '__main__':
         fps = 30
         print("FPS changed to 30")
     display_video_frames(vid_capture, fps)
-    
-    # Obtain frame size info
-    frame_width = int(vid_capture.get(3))
-    frame_height = int(vid_capture.get(4))
-    frame_size = (frame_width, frame_height)
     
     # Save the frames as a video
     output_path = 'vid_from_frames.avi'
