@@ -1,13 +1,26 @@
 import cv2
+import numpy as np
 
-
-def show_img(img, outpath=None):
+def show_img(img, title):
     # Display image in a window and wait for user
-    cv2.imshow('Image', img)
+    cv2.imshow(title, img)
     cv2.waitKey(0)
 
     # Destroy window
     cv2.destroyAllWindows()
+    
+    
+def resize_img(img, scale_factor, interpolation_method=cv2.INTER_LINEAR):
+    h,w,c = img.shape
+    print(f'Original size: {h}x{w}')
+    
+    resized_img = cv2.resize(img, 
+                             None,  # No custom hw provided
+                             fx=scale_factor, 
+                             fy=scale_factor, 
+                             interpolation=cv2.INTER_LINEAR
+                             )
+    return resized_img
     
 
 def read_video(vid):
@@ -52,7 +65,7 @@ def display_video_frames(vid_capture, fps):
     cv2.destroyAllWindows()
     
     
-def write_frames_as_video(vid_capture, output_path, fps, frame_size):
+def write_frames_as_video(vid_capture, output_path, fps):
     
     # Obtain frame size info
     frame_width = int(vid_capture.get(3))
@@ -90,16 +103,25 @@ if __name__ == '__main__':
 
     # Read, display, and save copy of image
     img = cv2.imread('img.jpg', cv2.IMREAD_UNCHANGED)
-    show_img(img)
+    show_img(img, 'img.jpg')
     cv2.imwrite('img_copy.jpg', img)
 
     # Read, display, and save image as grayscale
     img_grayscale = cv2.imread('img.jpg', cv2.IMREAD_GRAYSCALE)
-    show_img(img_grayscale)
+    show_img(img_grayscale, 'Grayscale Image')
     cv2.imwrite('img_grayscale.jpg', img_grayscale)
     
-    del img
-    del img_grayscale
+    # Resize and save an image
+    downscale_factor = 0.5
+    img_downscaled = resize_img(img, downscale_factor)
+    show_img(img_downscaled, 'Downscaled Image')
+    cv2.imwrite('img_downscaled.jpg', img_downscaled)
+    
+    upscale_factor = 2
+    img_upscaled = resize_img(img, upscale_factor)
+    show_img(img_upscaled, 'Upscaled Image')
+    cv2.imwrite('img_upscaled.jpg', img_upscaled)
+    
     
     ### Video Basics ###
     
@@ -121,7 +143,7 @@ if __name__ == '__main__':
     
     # Save the frames as a video
     output_path = 'vid_from_frames.avi'
-    write_frames_as_video(vid_capture, output_path, fps, frame_size)
+    write_frames_as_video(vid_capture, output_path, fps)
     
     # Release lock on video file
     vid_capture.release()
