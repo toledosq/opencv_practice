@@ -18,7 +18,7 @@ def resize_img(img, scale_factor, interpolation_method=cv2.INTER_LINEAR):
                              None,  # No custom hw provided
                              fx=scale_factor, 
                              fy=scale_factor, 
-                             interpolation=cv2.INTER_LINEAR
+                             interpolation=interpolation_method
                              )
     return resized_img
     
