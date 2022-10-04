@@ -72,3 +72,76 @@ for idx, img in enumerate([outdoors, B_, G_, R_]):
     axarr_[idx].imshow(img_rgb)
 
 plt.show()
+
+
+### Using color spaces for segmentation ###
+
+### RGB ###
+
+# BGR of green taken from photo, +/- 40
+bgr = [40, 158, 16]
+thresh= 40
+
+# Define min and max BGR values and place in array
+min_bgr = np.array([bgr[0] - thresh, bgr[1] - thresh, bgr[2] - thresh])
+max_bgr = np.array([bgr[0] + thresh, bgr[1] + thresh, bgr[2] + thresh])
+
+# Create mask for green and apply to original image
+mask_bgr = cv2.inRange(outdoors, min_bgr, max_bgr)
+result_bgr = cv2.bitwise_and(outdoors, outdoors, mask=mask_bgr)
+
+
+### HSV ###
+
+# Convert BGR array to 3D, convert to HSV, capture first element
+hsv = cv2.cvtColor(np.uint8([[bgr]]), cv2.COLOR_BGR2HSV)[0][0]
+
+# Define min/max HSV values and place in array
+min_hsv = np.array([hsv[0] - thresh, hsv[1] - thresh, hsv[2] - thresh])
+max_hsv = np.array([hsv[0] + thresh, hsv[1] + thresh, hsv[2] + thresh])
+
+# Convert images to HSV colorspace
+outdoors_hsv = cv2.cvtColor(outdoors, cv2.COLOR_BGR2HSV)
+indoors_hsv = cv2.cvtColor(indoors, cv2.COLOR_BGR2HSV)
+
+# Create mask and apply to original image
+mask_hsv = cv2.inRange(outdoors_hsv, min_hsv, max_hsv)
+result_hsv = cv2.bitwise_and(outdoors_hsv, outdoors_hsv, mask = mask_hsv)
+
+
+### YCrCb ###
+
+# Convert BGR array to 3D, convert to YCB, grab first element
+ycb = cv2.cvtColor(np.uint8([[bgr]]), cv2.COLOR_BGR2YCrCb)[0][0]
+min_ycb = np.array([ycb[0] - thresh, ycb[1] - thresh, ycb[2] - thresh])
+max_ycb = np.array([ycb[0] + thresh, ycb[1] + thresh, ycb[2] - thresh])
+
+# Convert original images to YCB colorspace
+outdoors_ycb = cv2.cvtColor(outdoors, cv2.COLOR_BGR2YCrCb)
+indoors_ycb = cv2.cvtColor(indoors, cv2.COLOR_BGR2YCrCb)
+
+# Create mask and apply to original image
+mask_ycb = cv2.inRange(outdoors_ycb, min_ycb, max_ycb)
+result_ycb = cv2.bitwise_and(outdoors_ycb, outdoors_ycb, mask=mask_ycb)
+
+
+# Convert BGR array to 3D, convert to LAB, grab first element
+lab = cv2.cvtColor(np.uint8([[bgr]]), cv2.COLOR_BGR2LAB)[0][0]
+min_lab = np.array([lab[0] - thresh, lab[1] - thresh, lab[2] - thresh])
+max_lab = np.array([lab[0] + thresh, lab[1] + thresh, lab[2] + thresh])
+
+# Convert images to LAB color space
+outdoors_lab = cv2.cvtColor(outdoors, cv2.COLOR_BGR2LAB)
+indoors_lab = cv2.cvtColor(indoors, cv2.COLOR_BGR2LAB)
+
+# Create a mask and apply to original image
+mask_lab = cv2.inRange(outdoors_lab, min_lab, max_lab)
+result_lab = cv2.bitwise_and(outdoors_lab, outdoors_lab, mask=mask_lab)
+
+
+### Display Results ###
+cv2.imshow("(BGR) Green isolated", result_bgr)
+cv2.imshow("(HSV) Green isolated", result_hsv)
+cv2.imshow("(YCB) Green isolated", result_ycb)
+cv2.imshow("(LAB) Green isolated", result_lab)
+cv2.waitKey(0)
