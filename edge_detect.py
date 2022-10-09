@@ -73,8 +73,17 @@ cv2.destroyAllWindows()
 """
 Canny Edge Detection
 
+Recommended blurring image before using Canny
+
 1. Noise Reduction
 2. Calculating Intensity Gradient of the Image
 3. Suppression of False Edges
 4. Hysteresis Thresholding
+
+cv2 syntax: cv2.Canny(image, threshold1, threshold2)
 """
+
+edges = cv2.Canny(img_blur, threshold1=100, threshold2=200)
+cv2.imshow('Canny', edges)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
