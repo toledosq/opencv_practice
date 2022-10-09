@@ -68,3 +68,13 @@ cv2.imshow('Sobel Y', sobely)
 cv2.imshow('Sobel X and Y', sobelxy)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
+
+"""
+Canny Edge Detection
+
+1. Noise Reduction
+2. Calculating Intensity Gradient of the Image
+3. Suppression of False Edges
+4. Hysteresis Thresholding
+"""
