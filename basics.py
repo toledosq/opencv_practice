@@ -30,8 +30,8 @@ def resize_img(img, scale_factor, interpolation_method=cv2.INTER_LINEAR):
 def crop_img(img, left=0, right=0, top=0, bottom=0):
     print(f"Original shape: {img.shape}")
     
-    img_height = img.shape[0]
-    img_width = img.shape[1]
+    img_height = img.shape[0] - 1
+    img_width = img.shape[1] - 1
 
     # (height, width, channels)
     from_left = clamp(left, 0, img_width)
@@ -58,11 +58,11 @@ def crop_img_center(img, shape: tuple):
     print("y_diff", y_diff)
     print("x_diff", x_diff)
     
-    y0 = clamp(0 + y_diff, 0, orig_y1)
-    y1 = clamp(orig_y1 - y_diff, 0, orig_y1)
+    y0 = clamp(0 + y_diff, 0, orig_y1 - 1)
+    y1 = clamp(orig_y1 - y_diff, 0, orig_y1 - 1)
     
-    x0 = clamp(0 + x_diff, 0, orig_x1)
-    x1 = clamp(orig_x1 - x_diff, 0, orig_x1)
+    x0 = clamp(0 + x_diff, 0, orig_x1 - 1)
+    x1 = clamp(orig_x1 - x_diff, 0, orig_x1 - 1)
     
     cropped_img = img[y0:y1, x0:x1]
     print(f"Center Cropped Shape: {cropped_img.shape}")
