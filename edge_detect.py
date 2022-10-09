@@ -79,6 +79,11 @@ Recommended blurring image before using Canny
 2. Calculating Intensity Gradient of the Image
 3. Suppression of False Edges
 4. Hysteresis Thresholding
+    - Two thresholds are used, a small (t1) and a large(t2)
+    - If Gm < t1, suppressed
+    - If Gm > t2, strong edge
+    - if t1 < Gm < t2, weak edge
+    - if weak edge associated w/ strong edge, include
 
 cv2 syntax: cv2.Canny(image, threshold1, threshold2)
 """
