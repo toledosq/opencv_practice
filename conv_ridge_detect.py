@@ -6,13 +6,12 @@ image_path = sys.argv[1]
 print(image_path)
 
 img = cv2.imread(sys.argv[1], 0)  # Read in as grayscale
-
-size = (img.shape[1], img.shape[0])
-preview_size = (960, 540)
 if img is None:
     print('Could not read image', sys.argv[1])
 
 # Resize img if too big
+size = (img.shape[1], img.shape[0])
+preview_size = (960, 540)
 print(f'Img Resolution: {size[0]}x{size[1]}')
 print(f'Preview Resolution: {preview_size[1]}x{preview_size[0]}')
 if size[0] > preview_size[0] or size[1] > preview_size[1]:
