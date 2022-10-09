@@ -27,19 +27,23 @@ def resize_img(img, scale_factor, interpolation_method=cv2.INTER_LINEAR):
     return resized_img
     
     
-def crop_img(img, left=0, right=0, top=0, bottom=0):
+def crop_img(img, left=0, right=0, top=0, bottom=0, from_=True):
     print(f"Original shape: {img.shape}")
     
     img_height = img.shape[0] - 1
     img_width = img.shape[1] - 1
 
-    # (height, width, channels)
-    from_left = clamp(left, 0, img_width)
-    from_right = clamp(img_width - right, 0, img_width)
-    from_top = clamp(top, 0, img_height)
-    from_bottom = clamp(img_height - bottom, 0, img_height)
     
-    cropped_img = img[from_top:from_bottom, from_left:from_right]
+    if from_:
+        # (height, width, channels)
+        from_left = clamp(left, 0, img_width)
+        from_right = clamp(img_width - right, 0, img_width)
+        from_top = clamp(top, 0, img_height)
+        from_bottom = clamp(img_height - bottom, 0, img_height)
+        
+        cropped_img = img[from_top:from_bottom, from_left:from_right]
+    else:
+        cropped_img = img[top:bottom, left:right]
         
     print(f"Cropped shape: {cropped_img.shape}")
     return cropped_img
