@@ -16,10 +16,14 @@ class WC:
     oy = 0
     
     
-    def __init__(self, w):
-        self.hwnd = win32gui.FindWindow(None, w)
-        if not self.hwnd:
-            raise Exception(f'Window not found: {w}')            
+    def __init__(self, w=None):
+        if w is None:
+            self.hwnd = win32gui.GetDesktopWindow()
+        else:
+            self.hwnd = win32gui.FindWindow(None, w)
+            if not self.hwnd:
+                raise Exception(f'Window not found: {w}')
+        
         wr = win32gui.GetWindowRect(self.hwnd)
         self.w = wr[2] - wr[0]
         self.h = wr[3] - wr[1]
@@ -34,7 +38,7 @@ class WC:
         
         
     def get_screen_position(self, pos):
-        return (pos[0] + self.offset_x, pos[1] + self.offset_y)
+        return (pos[0] + self.ox, pos[1] + self.oy)
         
     
     def get_screen(self):        
@@ -76,6 +80,14 @@ class WC:
         cDC.DeleteDC()
         win32gui.ReleaseDC(self.hwnd, wDC)
         win32gui.DeleteObject(dBMap.GetHandle())
+        
+        
+    @staticmethod
+    def list_window_names():
+        def winEnumHandler(hwnd, ctx):
+            if win32gui.IsWindowVisible(hwnd):
+                print(hex(hwnd), win32gui.GetWindowText(hwnd))
+        win32gui.EnumWindows(winEnumHandler, None)
 
 
 if __name__ == '__main__':

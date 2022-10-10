@@ -16,28 +16,33 @@ class WindowCapture:
     offset_y = 0
     
     
-    def __init__(self, window_name):
-        # find the handle for the window we want to capture
-        self.hwnd = win32gui.FindWindow(None, window_name)
-        if not self.hwnd:
-            raise Exception(f'Window not found: {window_name}')
+    def __init__(self, window_name=None):
+        # find the handle for the window
+        # if none provided, capture desktop
+        if window_name is None:
+            self.hwnd = win32gui.GetDesktopWindow()
+        else:
+            self.hwnd = win32gui.FindWindow(None, window_name)
+            if not self.hwnd:
+                raise Exception(f'Window not found: {window_name}')
             
         # get the window size
         window_rect = win32gui.GetWindowRect(self.hwnd)
         self.w = window_rect[2] - window_rect[0]
         self.h = window_rect[3] - window_rect[1]
         
-        # remove border
-        border_pix = 8
-        titlebar_pix = 30
-        self.w -= border_pix * 2
-        self.h -= titlebar_pix - border_pix
-        self.cropped_x = border_pix
-        self.cropped_y = titlebar_pix
+        if window_name is not None:
+            # remove border
+            border_pix = 8
+            titlebar_pix = 30
+            self.w -= border_pix * 2
+            self.h -= titlebar_pix - border_pix
+            self.cropped_x = border_pix
+            self.cropped_y = titlebar_pix
         
-        # Set the cropped coordinates offset so we can translate screenshot
-        self.offset_x = window_rect[0] + self.cropped_x
-        self.offset_y = window_rect[1] + self.cropped_y
+            # Set the cropped coordinates offset so we can translate screenshot
+            self.offset_x = window_rect[0] + self.cropped_x
+            self.offset_y = window_rect[1] + self.cropped_y
         
         
     def get_screen_position(self, pos):
@@ -96,6 +101,14 @@ class WindowCapture:
         win32gui.DeleteObject(dataBitMap.GetHandle())
         
         print("Screenshot saved as debug.bmp")
+        
+        
+    @staticmethod
+    def list_window_names():
+        def winEnumHandler(hwnd, ctx):
+            if win32gui.IsWindowVisible(hwnd):
+                print(hex(hwnd), win32gui.GetWindowText(hwnd))
+        win32gui.EnumWindows(winEnumHandler, None)
 
 
 if __name__ == '__main__':
