@@ -65,7 +65,7 @@ class WC:
         return img
 
 
-    def test_get_screen(self):  
+    def screencap(self):  
         wDC = win32gui.GetWindowDC(self.hwnd)
         dcObj = win32ui.CreateDCFromHandle(wDC)
         cDC = dcObj.CreateCompatibleDC()

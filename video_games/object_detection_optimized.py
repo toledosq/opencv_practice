@@ -13,7 +13,7 @@ def findObjs(img, o_img, t=0.5, cmp=cv2.TM_CCOEFF_NORMED, debug=False):
     ow = o_img.shape[1]
     oh = o_img.shape[0]
 
-    for loc in l[:10]:
+    for loc in l:
         tl = loc
         br = (tl[0] + ow, tl[1] + oh)
         r.append([int(loc[0]), int(loc[1]), ow, oh])
