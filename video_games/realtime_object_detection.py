@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from time import time
 from window_capture_optimized import WC
-from object_detection_optimized import findObjs
+from object_detection_optimized import ObjectDetect
 
 
 if len(sys.argv) > 3:
@@ -16,6 +16,7 @@ o_img = cv2.imread(sys.argv[2])
 o_img = o_img[...,:3]
 
 wincap = WC(sys.argv[1])
+OD = ObjectDetect(o_img)
 #wincap = WC()
 lt = time()
 
@@ -24,7 +25,7 @@ while(True):
 	s = wincap.get_screen()
 
 	# display the processed image
-	pts = findObjs(s, o_img, thresh, debug=True)
+	pts = OD.findObjs(s, thresh)
 	
 	# debug loop rate
 	print(f'FPS {1 / (time() - lt)}', end='\r')
