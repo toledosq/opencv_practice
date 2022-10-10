@@ -13,4 +13,5 @@ As of now, this script only accepts a single image. This limitation means that t
 
 > Tested on Age of Empires II: Definitive Edition
 
-![example1](https://user-images.githubusercontent.com/14082640/194801979-29aea56f-ca2c-48eb-82f9-1616878d2d55.jpg)
+![example1](https://user-images.githubusercontent.com/14082640/194804375-5b63e013-d241-4429-85cf-c7ab7bdfadbb.jpg)
+
