@@ -4,13 +4,28 @@ Object Detection with OpenCV DNN
 
 Resources: https://learnopencv.com/deep-learning-with-opencvs-dnn-module-a-definitive-guide/
 MS COCO: https://cocodataset.org/#home
+OpenCV SSD MobileNet: https://github.com/ChiekoN/OpenCV_SSD_MobileNet
 
-Using MobileNet SSD (Single Shot Detector) trained on MS COCO dataset
+Using MobileNet SSD (Single Shot Detector) trained on MS COCO dataset (TensorFlow)
 """
 
 import cv2
 import numpy as np
 import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-i', '--input', help='path/to/image.jpg', default='input/detect_test1.jpg')
+parser.add_argument('-s', '--show', help='how many boxed objects to show', default=4)
+args = parser.parse_args()
+
+
+# Read image from disk
+image = cv2.imread(args.input)
+height, width, _ = image.shape
+
+if image is None:
+    print('Could not read image', args.i)
+    quit()
 
 # Load MS COCO class names
 with open('config/object_detection_classes_coco.txt', 'r') as f:
@@ -24,10 +39,6 @@ COLORS = np.random.uniform(0, 255, size=(len(class_names), 3))
 model = cv2.dnn.readNet(model='models/frozen_inference_graph.pb',
                         config='config/ssd_mobilenet_v2_coco_2018_03_29.pbtxt',
                         framework='TensorFlow')
-                
-# Read image from disk
-image = cv2.imread('input/detect_test1.jpg')
-height, width, _ = image.shape
 
 # Create blob from image
 blob = cv2.dnn.blobFromImage(image=image, 
@@ -41,7 +52,7 @@ output = model.forward()
 
 # Loop over each detection
 # Output format: [[[[classLabel, confidenceScore, boundBoxX, boundBoxY, boundBoxWidth, boundBoxHeight]]]]
-for detection in output[0, 0, :, :]:
+for detection in output[0, 0, :args.show, :]:   # args.show 5 results by default
     # Get Confidence
     confidence = detection[2]
     
