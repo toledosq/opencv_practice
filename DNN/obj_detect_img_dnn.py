@@ -9,6 +9,7 @@ OpenCV SSD MobileNet: https://github.com/ChiekoN/OpenCV_SSD_MobileNet
 Using MobileNet SSD (Single Shot Detector) trained on MS COCO dataset (TensorFlow)
 """
 
+import sys
 import cv2
 import numpy as np
 import argparse
