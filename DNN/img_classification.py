@@ -27,7 +27,7 @@ with open('config\classification_classes_ILSVRC2012.prototxt', 'r') as f:
 class_names = [name.split(',')[0] for name in image_net_names]
 
 # Load model weights
-model = cv2.dnn.readNet(model=f'model/DenseNet_{args.model}.caffemodel', 
+model = cv2.dnn.readNet(model=f'models/DenseNet_{args.model}.caffemodel', 
                         config=f'config/DenseNet_{args.model}.prototxt', 
                         framework='Caffe')
                         
