@@ -5,5 +5,5 @@
 *.avi
 *.bmp
 *.caffemodel
-*.prototxt
+*.pb
 __pycache__/
