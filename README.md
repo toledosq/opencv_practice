@@ -6,6 +6,7 @@
 Takes three arguments:
 * Window Name (Windows)
 * Path to an image of the object to track
+* Threshold (float)
 
 As of now, this script only accepts a single image. This limitation means that this script is only useful for 2D or isometric games with static sprites. However, the detection threshold can be adjusted to change sensitivity.
 
