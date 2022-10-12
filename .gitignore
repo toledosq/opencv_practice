@@ -4,4 +4,6 @@
 *.png
 *.avi
 *.bmp
+*.caffemodel
+*.prototxt
 __pycache__/
