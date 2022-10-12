@@ -26,6 +26,12 @@ cap = cv2.VideoCapture(args.input)
 frame_height = int(cap.get(3))
 frame_width = int(cap.get(4))
 
+# Create video writer
+out = cv2.VideoWriter('vid_detect_result.mp4', 
+                      cv2.VideoWriter_fourcc(*'mp4v'), 
+                      30, 
+                      (frame_width, frame_height))
+
 # Load MS COCO class names
 with open('config/object_detection_classes_coco.txt', 'r') as f:
     class_names = f.read().split('\n')
