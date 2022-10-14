@@ -21,19 +21,21 @@ OD = ObjectDetect(o_img)
 lt = time()
 
 while(True):
-	# Get updated image of window
-	s = wincap.get_screen()
-
-	# display the processed image
-	pts = OD.findObjs(s, thresh)
-	
-	# debug loop rate
-	print(f'FPS {1 / (time() - lt)}', end='\r')
-	lt = time()
-	
-	if cv2.waitKey(1) == ord('q'):
-		cv2.destroyAllWindows()
-		print()
-		break
-	elif cv2.waitKey(1) == ord('s'):
-		wincap.screencap()
+    # Get updated image of window
+    s = wincap.get_screen()
+    
+    # Find rects
+    r = OD.find(s, thresh)
+    o = OD.draw_rects(s, r)
+    cv2.imshow('Matches', o)
+    
+    # debug loop rate
+    print(f'FPS {1 / (time() - lt)}', end='\r')
+    lt = time()
+    
+    if cv2.waitKey(1) == ord('q'):
+        cv2.destroyAllWindows()
+        print()
+        break
+    elif cv2.waitKey(1) == ord('s'):
+        wincap.screencap()
