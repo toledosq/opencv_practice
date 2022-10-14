@@ -55,7 +55,7 @@ class ObjectDetect:
         
         
     def draw_rects(self, img, r):
-        mc = (255, 0, 255)        
+        mc = (240, 0, 255)        
         for (x, y, w, h) in r:            
             cv2.rectangle(img, 
                            (x, y),
